@@ -18,7 +18,7 @@ const WeatherPage=()=>{
     const [todayWeather, setTodayWeather]= useState({});
     const [weekWeather, setWeekWeather]= useState([]);
     const [isCelsius, setisCelsius]= useState(true);
-
+    const [darkMode, setDarkMode] = useState(true);
     const isDay=todayWeather.isDay?? true;
     useEffect(()=>{
         fetchCordinates(async(latitude,longitude)=>{
@@ -27,6 +27,13 @@ const WeatherPage=()=>{
 
         })
     }, []);
+   
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    document.body.style.backgroundColor = darkMode ? 'white' : '#121212';
+    document.body.style.color = darkMode ? 'black' : 'white';
+  };
     const convertToStateVariable = (tempWeekWeather)=>{
         let fetchedWeatherInfo=[];
         for(let i=0; i<tempWeekWeather.daily.time.length; i++){
@@ -59,7 +66,18 @@ if(!weekWeather.length)
             >
             {isCelsius? "°F":"°C"}</button>
             <div>
-
+            <button onClick={toggleTheme} style={{
+      padding: '10px 20px',
+      backgroundColor: darkMode ? '#333' : '#ddd',
+      color: darkMode ? 'white' : 'black',
+      position: 'absolute',
+      left: '20rem',
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer'
+    }}>
+      Toggle Theme
+    </button>
             </div>
     <WeatherSummary currentWeather={todayWeather} isCelsius={isCelsius}/>
     <table className={`ui very basic table ${!isDay?  "dark":""}`} >
